@@ -1,0 +1,1321 @@
+<!DOCTYPE html>
+<html lang="zh-CN">
+<head>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1.0, maximum-scale=1.0, user-scalable=no, viewport-fit=cover">
+<meta name="theme-color" content="#0a0a0a">
+<meta name="apple-mobile-web-app-capable" content="yes">
+<meta name="apple-mobile-web-app-status-bar-style" content="black-translucent">
+<title>EPICA STAR · 品牌画册</title>
+<link rel="preconnect" href="https://fonts.googleapis.com">
+<link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+<link href="https://fonts.googleapis.com/css2?family=Cormorant+Garamond:wght@300;400;500;600&family=Inter:wght@300;400;500;600&family=JetBrains+Mono:wght@400;500&display=swap" rel="stylesheet">
+<link rel="preload" as="image" href="D/1-.webp" fetchpriority="high">
+<link rel="preload" as="image" href="D/1-2.webp">
+<link rel="preload" as="image" href="D/1-3.webp">
+<link rel="preload" as="image" href="74b46ba9ae2ec58f54a875682f751ae1.jpg" fetchpriority="high">
+<style>
+  :root{
+    --bg-0:#000;
+    --bg-1:#0a0a0a;
+    --bg-2:#141414;
+    --gold:#d4b173;
+    --gold-bright:#f0d9a8;
+    --gold-deep:#9a7c4a;
+    --paper-back:#171513;
+    --ink:#f5efe3;
+    --ink-mute:#b8ad95;
+    --ink-dim:#7a7163;
+    --hairline:rgba(212,177,115,0.28);
+    --hairline-soft:rgba(212,177,115,0.10);
+    --hairline-faint:rgba(212,177,115,0.04);
+    --duration-page:650ms;
+    --ease-luxe:cubic-bezier(0.22,1,0.36,1);
+    --ease-apple:cubic-bezier(0.32,0.72,0,1);
+  }
+
+  *{box-sizing:border-box;-webkit-tap-highlight-color:transparent;}
+  html,body{margin:0;padding:0;height:100%;overflow:hidden;overscroll-behavior:none;}
+  body{
+    font-family:'Inter',-apple-system,BlinkMacSystemFont,'Helvetica Neue',sans-serif;
+    color:var(--ink);
+    background:#050505;
+    -webkit-font-smoothing:antialiased;
+    -moz-osx-font-smoothing:grayscale;
+    user-select:none;
+    -webkit-user-select:none;
+    touch-action:pan-y;
+  }
+
+  /* Background: editorial bathroom interior */
+  .bg-image{
+    position:fixed;inset:0;
+    z-index:0;
+    pointer-events:none;
+    background-image:url("74b46ba9ae2ec58f54a875682f751ae1.jpg");
+    background-size:cover;
+    background-position:center;
+    background-repeat:no-repeat;
+  }
+
+  /* Atmospheric overlay — soften the photo so the book is the hero */
+  body::before{
+    content:"";
+    position:fixed;inset:0;
+    pointer-events:none;
+    z-index:1;
+    background:
+      radial-gradient(80% 50% at 50% 0%, rgba(212,177,115,0.04) 0%, transparent 60%),
+      radial-gradient(120% 90% at 50% 50%, rgba(0,0,0,0.10) 0%, rgba(0,0,0,0.25) 70%, rgba(0,0,0,0.45) 100%);
+  }
+
+  /* Subtle film grain */
+  body::after{
+    content:"";
+    position:fixed;inset:0;
+    pointer-events:none;
+    z-index:2;
+    background-image:url("data:image/svg+xml;utf8,<svg xmlns='http://www.w3.org/2000/svg' width='200' height='200'><filter id='n'><feTurbulence type='fractalNoise' baseFrequency='0.85' numOctaves='2' stitchTiles='stitch'/><feColorMatrix values='0 0 0 0 0  0 0 0 0 0  0 0 0 0 0  0 0 0 0.05 0'/></filter><rect width='100%25' height='100%25' filter='url(%23n)'/></svg>");
+    mix-blend-mode:overlay;
+    opacity:.5;
+  }
+
+  /* ============ Top bar ============ */
+  .topbar{
+    position:fixed;top:0;left:0;right:0;
+    height:calc(50px + env(safe-area-inset-top));
+    padding-top:env(safe-area-inset-top);
+    z-index:50;
+    display:flex;align-items:center;justify-content:center;
+    background:linear-gradient(to bottom, rgba(0,0,0,0.62) 0%, rgba(0,0,0,0.38) 60%, rgba(0,0,0,0) 100%);
+    backdrop-filter:blur(24px) saturate(180%);
+    -webkit-backdrop-filter:blur(24px) saturate(180%);
+    opacity:0;
+    transition:opacity 700ms var(--ease-apple);
+  }
+  .topbar::after{
+    content:"";
+    position:absolute;left:0;right:0;bottom:0;
+    height:1px;
+    background:linear-gradient(90deg, transparent 0%, var(--hairline-soft) 30%, var(--hairline) 50%, var(--hairline-soft) 70%, transparent 100%);
+  }
+  .topbar.ready{opacity:1;}
+  .brand{
+    font-family:'Cormorant Garamond',serif;
+    font-weight:400;
+    font-size:14px;
+    letter-spacing:0.55em;
+    text-indent:0.55em;
+    background:linear-gradient(180deg, var(--gold-bright) 0%, var(--gold) 55%, var(--gold-deep) 100%);
+    -webkit-background-clip:text;
+    background-clip:text;
+    color:transparent;
+    position:relative;
+    text-transform:uppercase;
+  }
+  .brand::before, .brand::after{
+    content:"";
+    position:absolute;top:50%;
+    width:14px;height:1px;
+    background:linear-gradient(90deg, transparent, var(--gold) 50%, transparent);
+    opacity:.7;
+  }
+  .brand::before{right:calc(100% + 14px);}
+  .brand::after{left:calc(100% + 14px);}
+
+  .menu-btn{
+    position:absolute;right:14px;top:50%;transform:translateY(-50%);
+    width:34px;height:34px;display:flex;align-items:center;justify-content:center;
+    color:var(--gold);
+    background:rgba(255,255,255,0.04);
+    border:1px solid var(--hairline-soft);
+    border-radius:50%;
+    cursor:pointer;
+    transition:all .35s var(--ease-apple);
+    backdrop-filter:blur(12px);
+  }
+  .menu-btn:active{
+    background:rgba(212,177,115,0.18);
+    transform:translateY(-50%) scale(.9);
+  }
+  .menu-btn svg{width:13px;height:13px;}
+
+  /* ============ Book stage ============ */
+  .stage{
+    position:fixed;
+    top:0;
+    left:0;right:0;
+    bottom:0;
+    display:flex;align-items:center;justify-content:center;
+    z-index:10;
+  }
+
+  #flipbook{
+    position:relative;
+    background:#000;
+  }
+
+  /* Subtle top edge highlight on the book — like light catching real paper */
+  .stage::before{
+    content:"";
+    position:absolute;
+    top:calc(50px + env(safe-area-inset-top));
+    left:0;right:0;height:1px;
+    background:linear-gradient(90deg, transparent 0%, rgba(255,255,255,0.06) 50%, transparent 100%);
+    pointer-events:none;
+    z-index:11;
+  }
+
+  /* Hint chevron at the right edge — a subtle Apple-style affordance */
+  .edge-hint{
+    position:fixed;
+    right:0;
+    top:50%;
+    transform:translateY(-50%);
+    z-index:20;
+    width:18px;height:64px;
+    pointer-events:none;
+    opacity:0;
+    animation:edgeHint 3s ease-in-out 3.5s 2;
+  }
+  .edge-hint::before{
+    content:"";
+    position:absolute;inset:0;
+    background:linear-gradient(90deg, transparent, rgba(212,177,115,0.22));
+  }
+  @keyframes edgeHint{
+    0%,100%{opacity:0;transform:translate(0,-50%);}
+    50%{opacity:1;transform:translate(-6px,-50%);}
+  }
+
+  .page-wrap{
+    width:100%;height:100%;
+    background:#0a0a0a;
+    position:relative;
+    overflow:hidden;
+  }
+  .page-img{
+    width:100%;height:100%;
+    object-fit:cover;
+    display:block;
+    opacity:0;
+    transition:opacity 350ms ease-out;
+  }
+  .page-img.loaded{
+    opacity:1;
+    animation:settleIn 500ms cubic-bezier(0.22,1,0.36,1);
+  }
+  @keyframes settleIn{
+    0%{transform:scale(0.985);}
+    100%{transform:scale(1);}
+  }
+  .page-back{
+    background:
+      linear-gradient(135deg, #1a1816 0%, #0f0e0c 100%);
+    position:relative;
+  }
+  .page-back::before{
+    content:"";
+    position:absolute;inset:0;
+    background-image:
+      repeating-linear-gradient(45deg, rgba(201,169,110,0.025) 0 1px, transparent 1px 6px);
+    opacity:.6;
+  }
+  .page-back::after{
+    content:"";
+    position:absolute;
+    top:50%;left:50%;transform:translate(-50%,-50%);
+    width:32px;height:32px;
+    border:1px solid var(--hairline);
+    border-radius:50%;
+    background:radial-gradient(circle, var(--gold-deep) 30%, transparent 70%);
+    opacity:.4;
+  }
+
+  /* Loader on page until image ready */
+  .page-wrap.loading::before{
+    content:"";
+    position:absolute;
+    top:50%;left:50%;transform:translate(-50%,-50%);
+    width:24px;height:24px;
+    border:1px solid var(--hairline-soft);
+    border-top-color:var(--gold);
+    border-radius:50%;
+    animation:spin 900ms linear infinite;
+  }
+  @keyframes spin{to{transform:translate(-50%,-50%) rotate(360deg);}}
+
+  /* ============ Bottom floating pill ============ */
+  .bottombar{
+    position:fixed;
+    left:50%;
+    bottom:calc(20px + env(safe-area-inset-bottom));
+    transform:translateX(-50%);
+    z-index:50;
+    display:flex;align-items:center;
+    gap:14px;
+    padding:10px 20px 10px 18px;
+    background:rgba(20,18,15,0.72);
+    backdrop-filter:blur(28px) saturate(180%);
+    -webkit-backdrop-filter:blur(28px) saturate(180%);
+    border:1px solid var(--hairline-soft);
+    border-radius:100px;
+    box-shadow:
+      0 8px 30px rgba(0,0,0,0.6),
+      0 1px 0 rgba(255,255,255,0.04) inset;
+    opacity:0;
+    transition:opacity 700ms var(--ease-apple), transform 700ms var(--ease-apple);
+  }
+  .bottombar.ready{opacity:1;}
+
+  .nav-btn{
+    width:30px;height:30px;
+    display:flex;align-items:center;justify-content:center;
+    color:var(--gold);
+    background:transparent;
+    border:none;
+    border-radius:50%;
+    cursor:pointer;
+    transition:all .3s var(--ease-apple);
+    padding:0;
+  }
+  .nav-btn:active{
+    background:rgba(212,177,115,0.18);
+    transform:scale(.88);
+  }
+  .nav-btn svg{width:13px;height:13px;}
+  .nav-btn[disabled]{opacity:.3;pointer-events:none;}
+
+  /* Inspect mode toggle — when active, shows golden filled state */
+  .inspect-btn{
+    transition:all .35s var(--ease-apple);
+  }
+  .inspect-btn.on{
+    background:linear-gradient(135deg, var(--gold-bright) 0%, var(--gold) 100%);
+    color:#0a0a0a;
+    box-shadow:0 2px 10px rgba(212,177,115,0.4);
+  }
+  /* Subtle inspect-mode hint cursor on book */
+  body.inspect-mode #flipbook,
+  body.inspect-mode #flipbook *{
+    cursor:zoom-in !important;
+  }
+  /* Tiny ring around book when inspect mode is on */
+  body.inspect-mode .stage::before{
+    content:"";
+    position:absolute;inset:0;
+    pointer-events:none;
+    box-shadow:inset 0 0 0 1px rgba(212,177,115,0.2);
+    z-index:11;
+  }
+
+  .progress{
+    width:140px;
+    height:2px;
+    background:rgba(212,177,115,0.14);
+    position:relative;
+    overflow:visible;
+    border-radius:2px;
+  }
+  .progress-fill{
+    position:absolute;left:0;top:0;height:100%;
+    background:linear-gradient(90deg, var(--gold-deep) 0%, var(--gold) 50%, var(--gold-bright) 100%);
+    width:0%;
+    transition:width 600ms var(--ease-apple);
+    border-radius:2px;
+  }
+  .progress-fill::after{
+    content:"";
+    position:absolute;right:-3px;top:50%;transform:translateY(-50%);
+    width:6px;height:6px;border-radius:50%;
+    background:var(--gold-bright);
+    box-shadow:0 0 8px rgba(240,217,168,0.7);
+  }
+
+  .pagenum{
+    font-family:'JetBrains Mono','SF Mono',Menlo,monospace;
+    font-size:10px;
+    letter-spacing:0.18em;
+    color:var(--gold);
+    font-weight:500;
+    min-width:54px;
+    text-align:right;
+    font-variant-numeric:tabular-nums;
+  }
+  .pagenum .total{color:var(--ink-dim);font-weight:400;}
+  .pagenum .sep{color:var(--ink-dim);margin:0 3px;}
+
+  /* ============ Splash ============ */
+  .splash{
+    position:fixed;inset:0;
+    z-index:200;
+    background:
+      radial-gradient(60% 50% at 50% 45%, rgba(20,18,15,0.18) 0%, rgba(0,0,0,0.30) 75%),
+      url("74b46ba9ae2ec58f54a875682f751ae1.jpg") center/cover no-repeat,
+      #000;
+    display:flex;flex-direction:column;align-items:center;justify-content:center;
+    transition:opacity 900ms var(--ease-apple);
+    overflow:hidden;
+  }
+  .splash::before{
+    content:"";
+    position:absolute;inset:0;
+    background:linear-gradient(180deg, rgba(0,0,0,0.05) 0%, rgba(0,0,0,0.20) 100%);
+    pointer-events:none;
+  }
+  .splash::after{
+    content:"";
+    position:absolute;inset:0;
+    background-image:url("data:image/svg+xml;utf8,<svg xmlns='http://www.w3.org/2000/svg' width='400' height='400'><filter id='ms'><feTurbulence type='fractalNoise' baseFrequency='0.85' numOctaves='2' stitchTiles='stitch'/><feColorMatrix values='0 0 0 0 0  0 0 0 0 0  0 0 0 0 0  0 0 0 0.05 0'/></filter><rect width='100%25' height='100%25' filter='url(%23ms)'/></svg>");
+    background-size:cover;
+    mix-blend-mode:overlay;
+    opacity:0.4;
+    pointer-events:none;
+  }
+  .splash > *{position:relative;z-index:1;}
+  .splash.gone{opacity:0;pointer-events:none;}
+
+  .splash-mark{
+    width:38px;height:38px;
+    border:1px solid var(--gold);
+    border-radius:50%;
+    position:relative;
+    margin-bottom:36px;
+    opacity:0;
+    transform:scale(.6);
+    animation:markIn 900ms var(--ease-apple) 200ms forwards;
+  }
+  .splash-mark::before{
+    content:"";
+    position:absolute;
+    inset:6px;
+    border:1px solid var(--gold-deep);
+    border-radius:50%;
+  }
+  .splash-mark::after{
+    content:"";
+    position:absolute;
+    top:50%;left:50%;
+    width:6px;height:6px;border-radius:50%;
+    background:var(--gold-bright);
+    transform:translate(-50%,-50%);
+    box-shadow:0 0 12px var(--gold);
+  }
+  @keyframes markIn{
+    to{opacity:1;transform:scale(1);}
+  }
+
+  .splash-logo{
+    font-family:'Cormorant Garamond',serif;
+    font-weight:300;
+    font-size:30px;
+    letter-spacing:0.15em;
+    text-indent:0.15em;
+    background:linear-gradient(180deg, #faf3df 0%, var(--gold) 50%, var(--gold-deep) 100%);
+    -webkit-background-clip:text;
+    background-clip:text;
+    color:transparent;
+    text-transform:uppercase;
+    opacity:0;
+    animation:logoIn 1400ms var(--ease-apple) 600ms forwards, letterSpread 1800ms var(--ease-apple) 600ms forwards;
+  }
+  .splash-line{
+    margin-top:26px;
+    width:0;height:1px;
+    background:linear-gradient(90deg,transparent,var(--gold),transparent);
+    animation:lineIn 1400ms var(--ease-apple) 1400ms forwards;
+  }
+  .splash-tagline{
+    margin-top:18px;
+    font-family:'Inter',sans-serif;
+    font-size:9px;
+    font-weight:400;
+    letter-spacing:0.5em;
+    text-indent:0.5em;
+    color:var(--ink-mute);
+    text-transform:uppercase;
+    opacity:0;
+    animation:tagIn 900ms var(--ease-apple) 1700ms forwards;
+  }
+  @keyframes logoIn{
+    0%{opacity:0;}
+    100%{opacity:1;}
+  }
+  @keyframes letterSpread{
+    0%{letter-spacing:0.05em;text-indent:0.05em;}
+    100%{letter-spacing:0.42em;text-indent:0.42em;}
+  }
+  @keyframes tagIn{to{opacity:.85;}}
+  @keyframes lineIn{to{width:140px;}}
+
+  /* ============ Hint ============ */
+  .hint{
+    position:fixed;
+    right:24px;
+    bottom:calc(100px + env(safe-area-inset-bottom));
+    z-index:60;
+    width:48px;height:48px;
+    display:flex;align-items:center;justify-content:center;
+    color:var(--gold);
+    background:rgba(20,18,15,0.7);
+    border:1px solid var(--hairline-soft);
+    border-radius:50%;
+    backdrop-filter:blur(20px) saturate(180%);
+    -webkit-backdrop-filter:blur(20px) saturate(180%);
+    box-shadow:0 6px 20px rgba(0,0,0,0.5);
+    opacity:0;
+    pointer-events:none;
+    animation:hintBlink 2s var(--ease-apple) 2 forwards;
+    animation-delay:3.4s;
+  }
+  .hint svg{width:18px;height:18px;}
+  @keyframes hintBlink{
+    0%{opacity:0;transform:translateX(24px) scale(.8);}
+    25%{opacity:1;transform:translateX(0) scale(1);}
+    50%{opacity:1;transform:translateX(-10px) scale(1);}
+    75%{opacity:1;transform:translateX(0) scale(1);}
+    100%{opacity:0;transform:translateX(24px) scale(.8);}
+  }
+
+  /* ============ TOC bottom sheet ============ */
+  .toc{
+    position:fixed;inset:0;
+    z-index:150;
+    background:rgba(0,0,0,0);
+    backdrop-filter:blur(0);
+    -webkit-backdrop-filter:blur(0);
+    pointer-events:none;
+    transition:background .45s var(--ease-apple), backdrop-filter .45s var(--ease-apple);
+    display:flex;align-items:flex-end;justify-content:center;
+  }
+  .toc.open{
+    background:rgba(0,0,0,0.35);
+    backdrop-filter:blur(14px) saturate(160%);
+    -webkit-backdrop-filter:blur(14px) saturate(160%);
+    pointer-events:auto;
+  }
+  .toc-sheet{
+    width:100%;
+    max-height:78vh;
+    background:rgba(18,16,13,0.30);
+    backdrop-filter:blur(60px) saturate(180%);
+    -webkit-backdrop-filter:blur(60px) saturate(180%);
+    border-top:1px solid var(--hairline-soft);
+    border-radius:24px 24px 0 0;
+    padding:14px 22px calc(28px + env(safe-area-inset-bottom));
+    transform:translateY(100%);
+    transition:transform .55s var(--ease-apple);
+    box-shadow:0 -20px 60px rgba(0,0,0,0.45);
+    overflow:hidden;
+    display:flex;flex-direction:column;
+  }
+  .toc.open .toc-sheet{
+    transform:translateY(0);
+  }
+  .toc-grab{
+    width:38px;height:4px;
+    background:rgba(212,177,115,0.3);
+    border-radius:2px;
+    margin:0 auto 18px;
+    flex-shrink:0;
+  }
+  .toc-header{
+    display:flex;align-items:center;justify-content:space-between;
+    margin-bottom:18px;flex-shrink:0;
+  }
+  .toc-title{
+    font-family:'Cormorant Garamond',serif;
+    font-weight:400;
+    font-size:18px;
+    letter-spacing:0.32em;
+    color:var(--gold-bright);
+    text-transform:uppercase;
+  }
+  .toc-meta{
+    font-family:'JetBrains Mono',monospace;
+    font-size:9px;
+    letter-spacing:0.2em;
+    color:var(--ink-dim);
+    text-transform:uppercase;
+  }
+  .toc-scroll{
+    overflow-y:auto;
+    -webkit-overflow-scrolling:touch;
+    flex:1;
+    padding-right:2px;
+    margin:0 -2px;
+  }
+  .toc-grid{
+    display:grid;
+    grid-template-columns:repeat(5,1fr);
+    gap:10px;
+    padding:2px 2px 4px;
+  }
+  .toc-item{
+    aspect-ratio:1/1;
+    display:flex;align-items:center;justify-content:center;
+    font-family:'JetBrains Mono',monospace;
+    font-size:11px;
+    font-weight:500;
+    color:var(--ink-mute);
+    background:rgba(255,255,255,0.03);
+    border:1px solid var(--hairline-faint);
+    border-radius:10px;
+    cursor:pointer;
+    transition:all .35s var(--ease-apple);
+    font-variant-numeric:tabular-nums;
+    letter-spacing:0.04em;
+  }
+  .toc-item:active{
+    transform:scale(.92);
+    background:rgba(212,177,115,0.12);
+  }
+  .toc-item.current{
+    color:#0a0a0a;
+    background:linear-gradient(135deg, var(--gold-bright) 0%, var(--gold) 100%);
+    border-color:var(--gold);
+    box-shadow:0 4px 16px rgba(212,177,115,0.35);
+    font-weight:600;
+  }
+  .toc-close{
+    width:30px;height:30px;
+    display:flex;align-items:center;justify-content:center;
+    color:var(--gold);
+    background:rgba(255,255,255,0.04);
+    border:1px solid var(--hairline-soft);
+    border-radius:50%;
+    cursor:pointer;
+    transition:all .3s var(--ease-apple);
+  }
+  .toc-close:active{transform:scale(.88);background:rgba(212,177,115,0.18);}
+  .toc-close svg{width:11px;height:11px;}
+
+  /* tocMeta inserted via JS toc-header layout — adjust margin */
+  #tocMeta{margin:-10px 0 14px;}
+
+  /* When loupe is active, the flipbook ignores all pointer input */
+  body.loupe-on #flipbook,
+  body.loupe-on #flipbook *{
+    pointer-events:none !important;
+  }
+  /* Slight darkening of the page underneath while loupe is shown */
+  body.loupe-on .stage::after{
+    content:"";
+    position:absolute;inset:0;
+    background:rgba(0,0,0,0.18);
+    pointer-events:none;
+    z-index:11;
+    animation:loupeDim .35s var(--ease-apple) forwards;
+  }
+  @keyframes loupeDim{ from{opacity:0;} to{opacity:1;} }
+
+  /* Fullscreen overlay that captures pointer events while loupe is active.
+     Hidden by default (no pointer-events) so it cannot interfere with flipbook. */
+  .loupe-overlay{
+    position:fixed;inset:0;
+    z-index:118;
+    pointer-events:none;
+    background:transparent;
+    touch-action:none;
+  }
+  body.loupe-on .loupe-overlay{
+    pointer-events:auto;
+    cursor:none;
+  }
+
+  /* ============ Magnifier (loupe) ============ */
+  .loupe{
+    position:fixed;
+    width:200px;height:200px;
+    border-radius:24px;
+    pointer-events:none;
+    z-index:120;
+    opacity:0;
+    transform:scale(0.6);
+    transition:opacity .35s var(--ease-apple), transform .45s var(--ease-apple);
+    will-change:transform, opacity;
+    /* Apple-style frosted glass frame */
+    box-shadow:
+      0 0 0 1.2px rgba(255,255,255,0.18),
+      0 0 0 2.4px rgba(0,0,0,0.55),
+      0 0 0 3.4px rgba(212,177,115,0.35),
+      0 24px 60px rgba(0,0,0,0.7),
+      0 6px 18px rgba(0,0,0,0.5),
+      0 0 40px rgba(212,177,115,0.12);
+    overflow:hidden;
+    background:#0a0a0a;
+  }
+  .loupe.active{
+    opacity:1;
+    transform:scale(1);
+  }
+  .loupe-content{
+    position:absolute;inset:0;
+    background-repeat:no-repeat;
+    background-color:#000;
+  }
+  /* Inner glossy highlight + edge rim — like iOS magnifier */
+  .loupe::before{
+    content:"";
+    position:absolute;inset:0;
+    border-radius:inherit;
+    pointer-events:none;
+    background:
+      radial-gradient(120% 50% at 50% 0%, rgba(255,255,255,0.18) 0%, transparent 55%);
+    z-index:2;
+  }
+  .loupe::after{
+    content:"";
+    position:absolute;inset:0;
+    border-radius:inherit;
+    pointer-events:none;
+    box-shadow:inset 0 1px 0 rgba(255,255,255,0.22), inset 0 -1px 0 rgba(0,0,0,0.4);
+    z-index:3;
+  }
+  /* Crosshair / center dot */
+  .loupe-center{
+    position:absolute;
+    left:50%;top:50%;transform:translate(-50%,-50%);
+    width:8px;height:8px;
+    border-radius:50%;
+    background:rgba(212,177,115,0.5);
+    box-shadow:0 0 0 1px rgba(0,0,0,0.5), 0 0 8px rgba(212,177,115,0.7);
+    z-index:4;
+    opacity:.85;
+  }
+  /* Zoom badge */
+  .loupe-badge{
+    position:absolute;
+    bottom:8px;left:50%;transform:translateX(-50%);
+    padding:3px 10px;
+    background:rgba(0,0,0,0.55);
+    backdrop-filter:blur(12px);
+    -webkit-backdrop-filter:blur(12px);
+    border:1px solid rgba(212,177,115,0.25);
+    border-radius:100px;
+    font-family:'JetBrains Mono','SF Mono',Menlo,monospace;
+    font-size:9px;
+    letter-spacing:0.18em;
+    color:var(--gold-bright);
+    z-index:5;
+    font-variant-numeric:tabular-nums;
+    pointer-events:none;
+  }
+  /* Hint ripple shown briefly when loupe activates */
+  .loupe-ripple{
+    position:fixed;
+    width:60px;height:60px;
+    border:1.5px solid rgba(212,177,115,0.6);
+    border-radius:50%;
+    transform:translate(-50%,-50%) scale(0.5);
+    pointer-events:none;
+    z-index:119;
+    opacity:0;
+  }
+  .loupe-ripple.fire{
+    animation:loupeRipple 600ms var(--ease-apple) forwards;
+  }
+  @keyframes loupeRipple{
+    0%{opacity:0.9;transform:translate(-50%,-50%) scale(0.4);}
+    100%{opacity:0;transform:translate(-50%,-50%) scale(1.4);}
+  }
+</style>
+</head>
+<body>
+
+<div class="bg-image"></div>
+
+<!-- Splash -->
+<div class="splash" id="splash">
+  <div class="splash-mark"></div>
+  <div class="splash-logo">EPICA STAR</div>
+  <div class="splash-line"></div>
+  <div class="splash-tagline">Luxury Lighting Atelier</div>
+</div>
+
+<!-- Top bar -->
+<header class="topbar" id="topbar">
+  <div class="brand">EPICA STAR</div>
+  <button class="menu-btn" id="menuBtn" aria-label="目录">
+    <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.5">
+      <line x1="4" y1="7" x2="20" y2="7"/>
+      <line x1="4" y1="12" x2="20" y2="12"/>
+      <line x1="4" y1="17" x2="20" y2="17"/>
+    </svg>
+  </button>
+</header>
+
+<!-- Stage -->
+<main class="stage">
+  <div id="flipbook"></div>
+</main>
+
+<!-- Magnifier loupe -->
+<div class="loupe" id="loupe" aria-hidden="true">
+  <div class="loupe-content" id="loupeContent"></div>
+  <div class="loupe-center"></div>
+  <div class="loupe-badge" id="loupeBadge">2.5×</div>
+</div>
+<div class="loupe-ripple" id="loupeRipple"></div>
+<div class="loupe-overlay" id="loupeOverlay"></div>
+
+<!-- Bottom -->
+<footer class="bottombar" id="bottombar">
+  <button class="nav-btn" id="prevBtn" aria-label="上一页">
+    <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.8" stroke-linecap="round" stroke-linejoin="round">
+      <polyline points="15 18 9 12 15 6"/>
+    </svg>
+  </button>
+  <button class="nav-btn inspect-btn" id="inspectBtn" aria-label="放大检视">
+    <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.6" stroke-linecap="round" stroke-linejoin="round">
+      <circle cx="11" cy="11" r="6"/>
+      <line x1="20" y1="20" x2="15.5" y2="15.5"/>
+      <line x1="11" y1="8.5" x2="11" y2="13.5"/>
+      <line x1="8.5" y1="11" x2="13.5" y2="11"/>
+    </svg>
+  </button>
+  <div class="progress"><div class="progress-fill" id="progressFill"></div></div>
+  <div class="pagenum">
+    <span id="curPage">001</span>
+    <span class="sep">/</span>
+    <span class="total" id="totalPage">157</span>
+  </div>
+  <button class="nav-btn" id="nextBtn" aria-label="下一页">
+    <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.8" stroke-linecap="round" stroke-linejoin="round">
+      <polyline points="9 18 15 12 9 6"/>
+    </svg>
+  </button>
+</footer>
+
+<!-- Hint -->
+<div class="hint" id="hint">
+  <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.5" stroke-linecap="round" stroke-linejoin="round">
+    <path d="M20 12H4M4 12l6-6M4 12l6 6"/>
+  </svg>
+</div>
+
+<!-- Edge hint -->
+<div class="edge-hint"></div>
+
+<!-- TOC -->
+<div class="toc" id="toc">
+  <div class="toc-sheet">
+    <div class="toc-grab"></div>
+    <div class="toc-header">
+      <div class="toc-title">Index</div>
+      <button class="toc-close" id="tocClose" aria-label="关闭">
+        <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round"><line x1="6" y1="6" x2="18" y2="18"/><line x1="6" y1="18" x2="18" y2="6"/></svg>
+      </button>
+    </div>
+    <div class="toc-meta" id="tocMeta">157 PAGES · TAP TO JUMP</div>
+    <div class="toc-scroll">
+      <div class="toc-grid" id="tocGrid"></div>
+    </div>
+  </div>
+</div>
+
+<script src="https://cdn.jsdelivr.net/npm/page-flip@2.0.7/dist/js/page-flip.browser.js"></script>
+<script>
+(function(){
+  const TOTAL = 157;
+  const IMG_PATH = (n) => n === 1 ? 'D/1-.webp' : `D/1-${n}.webp`;
+
+  const pad = (n) => String(n).padStart(3,'0');
+
+  const flipbookEl = document.getElementById('flipbook');
+  const splash = document.getElementById('splash');
+  const topbar = document.getElementById('topbar');
+  const bottombar = document.getElementById('bottombar');
+  const curPageEl = document.getElementById('curPage');
+  const totalPageEl = document.getElementById('totalPage');
+  const progressFill = document.getElementById('progressFill');
+  const menuBtn = document.getElementById('menuBtn');
+  const prevBtn = document.getElementById('prevBtn');
+  const nextBtn = document.getElementById('nextBtn');
+  const toc = document.getElementById('toc');
+  const tocGrid = document.getElementById('tocGrid');
+  const tocClose = document.getElementById('tocClose');
+
+  totalPageEl.textContent = pad(TOTAL);
+
+  // Compute book size to fit phone portrait
+  function computeSize(){
+    const stage = document.querySelector('.stage');
+    const sw = stage.clientWidth;
+    const sh = stage.clientHeight;
+    const padX = 0, padY = 0;
+    const maxW = sw - padX*2;
+    const maxH = sh - padY*2;
+    // Original page aspect from cover image: portrait, roughly 1080x1440 → 3:4 (0.75)
+    const aspect = window.__bookAspect || (3/4);
+    let w = maxW;
+    let h = w / aspect;
+    if(h > maxH){ h = maxH; w = h * aspect; }
+    return { width: Math.floor(w), height: Math.floor(h) };
+  }
+
+  // Build TOC
+  for(let i=1;i<=TOTAL;i++){
+    const it = document.createElement('div');
+    it.className = 'toc-item';
+    it.textContent = pad(i);
+    it.dataset.page = i;
+    it.addEventListener('click', () => {
+      pf && pf.flip(i-1);
+      closeToc();
+    });
+    tocGrid.appendChild(it);
+  }
+
+  function openToc(){
+    toc.classList.add('open');
+    updateTocCurrent();
+    // Scroll current page into view
+    setTimeout(() => {
+      const el = tocGrid.querySelector('.toc-item.current');
+      if(el) el.scrollIntoView({behavior:'smooth', block:'center'});
+    }, 350);
+  }
+  function closeToc(){ toc.classList.remove('open'); }
+  function updateTocCurrent(){
+    const cur = pf ? pf.getCurrentPageIndex() + 1 : 1;
+    [...tocGrid.children].forEach((el,i) => {
+      el.classList.toggle('current', (i+1) === cur);
+    });
+  }
+  menuBtn.addEventListener('click', openToc);
+  tocClose.addEventListener('click', closeToc);
+  toc.addEventListener('click', (e) => { if(e.target === toc) closeToc(); });
+
+  prevBtn.addEventListener('click', () => { if(pf) pf.flipPrev(); });
+  nextBtn.addEventListener('click', () => { if(pf) pf.flipNext(); });
+
+  let pf = null;
+  const loadedPages = new Set();
+  const inFlight = new Map();
+  const NEAR_RADIUS = 5;       // hard preload window around current page
+  const PREFETCH_CONCURRENCY = 4;
+  let prefetchQueue = [];
+  let activePrefetches = 0;
+  let prefetchPaused = false;
+
+  function pageHTML(n){
+    return `<div class="page-wrap loading" data-page="${n}">
+      <img class="page-img" data-src="${IMG_PATH(n)}" alt="" decoding="async"/>
+    </div>`;
+  }
+  // Generate page nodes
+  const pages = [];
+  for(let i=1;i<=TOTAL;i++){
+    const div = document.createElement('div');
+    div.innerHTML = pageHTML(i);
+    pages.push(div.firstChild);
+  }
+
+  function applyContentEntrance(idx){
+    const wrap = pages[idx-1];
+    if(!wrap) return;
+    const img = wrap.querySelector('img');
+    if(img && img.complete && img.naturalWidth){
+      img.classList.remove('loaded');
+      void img.offsetWidth;
+      img.classList.add('loaded');
+    }
+  }
+
+  function ensureImageLoaded(n){
+    if(n < 1 || n > TOTAL) return null;
+    if(loadedPages.has(n)) return Promise.resolve();
+    if(inFlight.has(n)) return inFlight.get(n);
+    const p = new Promise((resolve) => {
+      const img = new Image();
+      img.decoding = 'async';
+      img.fetchPriority = 'high';
+      img.onload = img.onerror = () => {
+        loadedPages.add(n);
+        inFlight.delete(n);
+        // Bind to DOM image if present
+        const wrap = pages[n-1];
+        if(wrap){
+          const dom = wrap.querySelector('img');
+          if(dom && !dom.src){
+            dom.src = img.src;
+            dom.classList.add('loaded');
+            wrap.classList.remove('loading');
+          } else if(dom){
+            dom.classList.add('loaded');
+            wrap.classList.remove('loading');
+          }
+          if(!window.__bookAspect && n === 1 && img.naturalWidth){
+            window.__bookAspect = img.naturalWidth / img.naturalHeight;
+          }
+        }
+        resolve();
+      };
+      img.src = IMG_PATH(n);
+    });
+    inFlight.set(n, p);
+    return p;
+  }
+
+  function bindDomImage(n){
+    const wrap = pages[n-1];
+    if(!wrap) return;
+    const dom = wrap.querySelector('img');
+    if(dom && !dom.src && dom.dataset.src){
+      dom.src = dom.dataset.src;
+      dom.decoding = 'async';
+      dom.onload = () => {
+        dom.classList.add('loaded');
+        wrap.classList.remove('loading');
+        if(!window.__bookAspect && n === 1){
+          window.__bookAspect = dom.naturalWidth / dom.naturalHeight;
+        }
+      };
+      if(dom.complete && dom.naturalWidth){
+        dom.classList.add('loaded');
+        wrap.classList.remove('loading');
+      }
+    }
+  }
+
+  function loadVisibleImages(centerIdx){
+    for(let d = -NEAR_RADIUS; d <= NEAR_RADIUS; d++){
+      const n = centerIdx + d;
+      if(n < 1 || n > TOTAL) continue;
+      bindDomImage(n);
+      ensureImageLoaded(n);
+    }
+    rebuildPrefetchQueue(centerIdx);
+  }
+
+  function rebuildPrefetchQueue(centerIdx){
+    // Build outward order from current page
+    const order = [];
+    const maxDist = Math.max(centerIdx - 1, TOTAL - centerIdx);
+    for(let d = NEAR_RADIUS + 1; d <= maxDist; d++){
+      if(centerIdx + d <= TOTAL) order.push(centerIdx + d);
+      if(centerIdx - d >= 1) order.push(centerIdx - d);
+    }
+    prefetchQueue = order.filter(n => !loadedPages.has(n));
+    pumpPrefetch();
+  }
+
+  function pumpPrefetch(){
+    if(prefetchPaused) return;
+    while(activePrefetches < PREFETCH_CONCURRENCY && prefetchQueue.length){
+      const n = prefetchQueue.shift();
+      if(loadedPages.has(n)) continue;
+      activePrefetches++;
+      const img = new Image();
+      img.decoding = 'async';
+      img.onload = img.onerror = () => {
+        loadedPages.add(n);
+        activePrefetches--;
+        const wrap = pages[n-1];
+        if(wrap){
+          const dom = wrap.querySelector('img');
+          if(dom && !dom.src){
+            dom.src = img.src;
+            dom.classList.add('loaded');
+            wrap.classList.remove('loading');
+          }
+        }
+        pumpPrefetch();
+      };
+      img.src = IMG_PATH(n);
+    }
+  }
+
+  // Pause prefetch during active flips so it doesn't compete with animation frames
+  function pausePrefetch(ms = 700){
+    prefetchPaused = true;
+    setTimeout(() => { prefetchPaused = false; pumpPrefetch(); }, ms);
+  }
+
+  function initFlipbook(){
+    const size = computeSize();
+    pf = new St.PageFlip(flipbookEl, {
+      width: size.width,
+      height: size.height,
+      size: 'fixed',
+      minWidth: 200,
+      maxWidth: 1200,
+      minHeight: 260,
+      maxHeight: 1600,
+      drawShadow: true,
+      flippingTime: 650,
+      usePortrait: true,
+      autoSize: false,
+      maxShadowOpacity: 0.5,
+      mobileScrollSupport: false,
+      swipeDistance: 30,
+      showCover: true,
+      useMouseEvents: true,
+      clickEventForward: false,
+      disableFlipByClick: false,
+    });
+
+    pf.loadFromHTML(pages);
+
+    // Handle navigation
+    pf.on('flip', (e) => {
+      const idx = e.data; // 0-based
+      const cur = idx + 1;
+      curPageEl.textContent = pad(cur);
+      const pct = ((cur - 1) / (TOTAL - 1)) * 100;
+      progressFill.style.width = pct + '%';
+      pausePrefetch(700);
+      loadVisibleImages(cur);
+      applyContentEntrance(cur);
+      animatePageNumber(cur);
+      prevBtn.disabled = (cur === 1);
+      nextBtn.disabled = (cur === TOTAL);
+    });
+
+    pf.on('changeOrientation', () => {});
+    pf.on('init', () => {
+      loadVisibleImages(1);
+    });
+
+    // Initial load
+    loadVisibleImages(1);
+    applyContentEntrance(1);
+  }
+
+  // Animated page number (small flip effect)
+  function animatePageNumber(n){
+    curPageEl.style.transition = 'none';
+    curPageEl.style.transform = 'translateY(-4px)';
+    curPageEl.style.opacity = '0';
+    requestAnimationFrame(() => {
+      curPageEl.style.transition = 'transform .35s cubic-bezier(.22,1,.36,1), opacity .3s ease';
+      curPageEl.style.transform = 'translateY(0)';
+      curPageEl.style.opacity = '1';
+    });
+  }
+
+  // Resize handler (debounced)
+  let resizeTimer;
+  window.addEventListener('resize', () => {
+    clearTimeout(resizeTimer);
+    resizeTimer = setTimeout(() => {
+      if(!pf) return;
+      const size = computeSize();
+      try{
+        pf.update();
+      }catch(e){
+        // fallback: rebuild
+      }
+    }, 200);
+  });
+
+  // Boot sequence
+  // Start preloading first pages immediately, even during splash
+  function warmupInitialImages(){
+    for(let n=1; n<=8; n++){
+      ensureImageLoaded(n);
+    }
+  }
+  warmupInitialImages();
+
+  window.addEventListener('load', () => {
+    // Splash for ~2.6s — letter-spread animation needs time to breathe
+    setTimeout(() => {
+      initFlipbook();
+      topbar.classList.add('ready');
+      bottombar.classList.add('ready');
+      setTimeout(() => {
+        splash.classList.add('gone');
+      }, 200);
+    }, 2600);
+  });
+
+  // Kick off warmup right away if document is interactive
+  if(document.readyState !== 'loading'){
+    warmupInitialImages();
+  } else {
+    document.addEventListener('DOMContentLoaded', warmupInitialImages);
+  }
+
+  // Disable iOS double-tap zoom on book area
+  let lastTouch = 0;
+  flipbookEl.addEventListener('touchend', (e) => {
+    const now = Date.now();
+    if(now - lastTouch < 350){ e.preventDefault(); }
+    lastTouch = now;
+  }, { passive: false });
+
+  // ============ Magnifier loupe (Inspect mode) ============
+  const loupe = document.getElementById('loupe');
+  const loupeContent = document.getElementById('loupeContent');
+  const loupeBadge = document.getElementById('loupeBadge');
+  const loupeRipple = document.getElementById('loupeRipple');
+  const loupeOverlay = document.getElementById('loupeOverlay');
+  const inspectBtn = document.getElementById('inspectBtn');
+  const ZOOM = 2.5;
+  const LOUPE_SIZE = 200;
+
+  let inspectMode = false;
+  let loupeState = {
+    active: false,
+    pageImg: null,
+    imgRect: null,
+    pressX: 0,
+    pressY: 0,
+    pressTime: 0,
+    pressMoved: false,
+  };
+
+  function findCurrentPageImg(){
+    if(!pf) return null;
+    const idx = pf.getCurrentPageIndex();
+    const wrap = pages[idx];
+    if(!wrap) return null;
+    const img = wrap.querySelector('img');
+    if(img && img.complete && img.naturalWidth) return img;
+    return null;
+  }
+
+  function getImgUnderPoint(x, y){
+    const el = document.elementFromPoint(x, y);
+    if(!el) return findCurrentPageImg();
+    if(el.tagName === 'IMG' && el.classList.contains('page-img')) return el;
+    const inWrap = el.closest && el.closest('.page-wrap');
+    if(inWrap){
+      const img = inWrap.querySelector('img.page-img');
+      if(img && img.complete && img.naturalWidth) return img;
+    }
+    return findCurrentPageImg();
+  }
+
+  function placeLoupe(clientX, clientY){
+    if(!loupeState.imgRect || !loupeState.pageImg) return;
+    const rect = loupeState.imgRect;
+    const px = Math.max(0, Math.min(rect.width,  clientX - rect.left));
+    const py = Math.max(0, Math.min(rect.height, clientY - rect.top));
+
+    const offsetY = -110;
+    let lx = clientX - LOUPE_SIZE/2;
+    let ly = clientY - LOUPE_SIZE/2 + offsetY;
+    const margin = 8;
+    lx = Math.max(margin, Math.min(window.innerWidth - LOUPE_SIZE - margin, lx));
+    ly = Math.max(margin, Math.min(window.innerHeight - LOUPE_SIZE - margin, ly));
+    loupe.style.left = lx + 'px';
+    loupe.style.top  = ly + 'px';
+
+    const bgW = rect.width  * ZOOM;
+    const bgH = rect.height * ZOOM;
+    const bgX = -(px * ZOOM - LOUPE_SIZE/2);
+    const bgY = -(py * ZOOM - LOUPE_SIZE/2);
+    loupeContent.style.backgroundImage = `url("${loupeState.pageImg.currentSrc || loupeState.pageImg.src}")`;
+    loupeContent.style.backgroundSize = `${bgW}px ${bgH}px`;
+    loupeContent.style.backgroundPosition = `${bgX}px ${bgY}px`;
+  }
+
+  function showLoupe(clientX, clientY){
+    const img = getImgUnderPoint(clientX, clientY);
+    if(!img) return false;
+    loupeState.pageImg = img;
+    loupeState.imgRect = img.getBoundingClientRect();
+    loupeState.active = true;
+
+    document.body.classList.add('loupe-on');
+
+    loupeRipple.style.left = clientX + 'px';
+    loupeRipple.style.top  = clientY + 'px';
+    loupeRipple.classList.remove('fire');
+    void loupeRipple.offsetWidth;
+    loupeRipple.classList.add('fire');
+
+    placeLoupe(clientX, clientY);
+    requestAnimationFrame(() => loupe.classList.add('active'));
+
+    if(navigator.vibrate) navigator.vibrate(8);
+    pausePrefetch(2000);
+    return true;
+  }
+
+  function hideLoupe(){
+    if(!loupeState.active) return;
+    loupeState.active = false;
+    loupe.classList.remove('active');
+    document.body.classList.remove('loupe-on');
+    loupeState.pageImg = null;
+    loupeState.imgRect = null;
+  }
+
+  function setInspectMode(on){
+    inspectMode = on;
+    document.body.classList.toggle('inspect-mode', on);
+    inspectBtn.classList.toggle('on', on);
+    if(!on) hideLoupe();
+  }
+
+  inspectBtn.addEventListener('click', (e) => {
+    e.stopPropagation();
+    setInspectMode(!inspectMode);
+  });
+
+  // Inspect-mode tap detection — only active while inspectMode is true.
+  // When OFF, this listener is a no-op so flipping is 100% native.
+  flipbookEl.addEventListener('pointerdown', (e) => {
+    if(!inspectMode) return;
+    if(loupeState.active) return;
+    if(e.target.closest('.nav-btn, .menu-btn, .topbar, .bottombar, .hint, .toc')) return;
+    loupeState.pressX = e.clientX;
+    loupeState.pressY = e.clientY;
+    loupeState.pressTime = Date.now();
+    loupeState.pressMoved = false;
+  }, { passive: true });
+
+  flipbookEl.addEventListener('pointermove', (e) => {
+    if(!inspectMode) return;
+    if(loupeState.pressMoved || !loupeState.pressTime) return;
+    const dx = e.clientX - loupeState.pressX;
+    const dy = e.clientY - loupeState.pressY;
+    if(dx*dx + dy*dy > 64) loupeState.pressMoved = true;
+  }, { passive: true });
+
+  flipbookEl.addEventListener('pointerup', (e) => {
+    if(!inspectMode || loupeState.active) return;
+    if(!loupeState.pressTime) return;
+    const dt = Date.now() - loupeState.pressTime;
+    loupeState.pressTime = 0;
+    if(loupeState.pressMoved || dt > 280) return;
+    if(e.target.closest('.nav-btn, .menu-btn, .topbar, .bottombar, .hint, .toc')) return;
+    showLoupe(e.clientX, e.clientY);
+  }, { passive: true });
+
+  flipbookEl.addEventListener('pointercancel', () => { loupeState.pressTime = 0; }, { passive: true });
+  flipbookEl.addEventListener('pointerleave', () => { loupeState.pressTime = 0; }, { passive: true });
+
+  // Overlay tap → dismiss loupe AND exit inspect mode
+  loupeOverlay.addEventListener('pointerdown', (e) => {
+    e.preventDefault();
+    hideLoupe();
+    setInspectMode(false);
+  });
+
+  document.addEventListener('keydown', (e) => {
+    if(e.key === 'Escape'){
+      if(loupeState.active) hideLoupe();
+      if(inspectMode) setInspectMode(false);
+    }
+  });
+
+  window.addEventListener('resize', () => {
+    if(loupeState.active && loupeState.pageImg){
+      loupeState.imgRect = loupeState.pageImg.getBoundingClientRect();
+    }
+  });
+
+  // Prevent scroll
+  document.addEventListener('touchmove', (e) => {
+    if(e.scale !== 1) e.preventDefault();
+  }, { passive: false });
+
+})();
+</script>
+</body>
+</html>
